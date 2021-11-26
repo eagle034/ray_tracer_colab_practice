@@ -15,6 +15,7 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/artoowang/ray-tracer-colab',
     packages=setuptools.find_packages(),
+    license='GNU General Public License v3 (GPLv3)',
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)'
