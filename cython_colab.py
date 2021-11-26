@@ -58,7 +58,16 @@ def _build(setup_path, ext_name=None):
   print(f'Next reload number: {next_reload_number}')
 
   # Use build_ext --inplace to build the extension in the working directory.
-  subprocess.call(['python', setup_path, 'build_ext', '--inplace'])
+  # Use Popen() instead of just call(), because we need to parse STDOUT and
+  # STDERR and explicitly print the result for Colab. Otherwise, Colab will
+  # not capture those outputs in the notebook.
+  with subprocess.Popen(['python', setup_path, 'build_ext', '--inplace'],
+                        stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                        bufsize=1, universal_newlines=True) as p:
+    for line in p.stdout:
+      print(line, end='')
+    print(f'Build exit code: {p.poll()}')
+
   new_module_path = glob.glob(f'{ext_name}.cpython-*.so')
   if len(new_module_path) < 1:
     raise ValueError(f'Failed to create extension.')
