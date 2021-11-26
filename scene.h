@@ -1,16 +1,15 @@
 #ifndef SCENE_H_
 #define SCENE_H_
 
-#include "hittable_list.h"
 #include "camera.h"
+#include "hittable_list.h"
 
 class Scene {
  public:
   // Default constructor is needed to create this object on stack in Cython.
   Scene() {}
-  Scene(int image_width, int image_height,
-        int samples_per_pixel,
-        int max_depth, hittable_list world, Camera camera);
+  Scene(int image_width, int image_height, int samples_per_pixel, int max_depth,
+        hittable_list world, Camera camera);
 
   bool RenderLine(int y, uint8_t* line) const;
 
