@@ -9,6 +9,13 @@
 using std::fabs;
 using std::sqrt;
 
+// We currently need to declare these functions here, because we cannot
+// include rtweekend.h here as it circularly includes this header. We can
+// put vec3 implementation into a .cc file, but then it loses the inline
+// benefits.
+double random_double();
+double random_double(double min, double max);
+
 class vec3 {
  public:
   vec3() : e{0, 0, 0} {}
