@@ -4,6 +4,7 @@
 // Originally written in 2016 by Peter Shirley <ptrshrl@gmail.com>
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "hittable.h"
@@ -12,16 +13,17 @@
 class hittable_list : public hittable {
  public:
   hittable_list() {}
-  hittable_list(shared_ptr<hittable> object) { add(object); }
 
   void clear() { objects.clear(); }
-  void add(shared_ptr<hittable> object) { objects.push_back(object); }
+  void add(std::unique_ptr<hittable> object) {
+    objects.emplace_back(std::move(object));
+  }
 
   virtual bool hit(const ray& r, double t_min, double t_max,
                    hit_record& rec) const override;
 
  public:
-  std::vector<shared_ptr<hittable>> objects;
+  std::vector<std::unique_ptr<hittable>> objects;
 };
 
 inline bool hittable_list::hit(const ray& r, double t_min, double t_max,
